@@ -1,0 +1,17 @@
+{
+    "name": "almond/vtt-package",
+    "authors": [
+        {
+            "name": "John Malayny",
+            "email": "john.malayny@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "almond\\Transcription\\" : "src/"
+        }
+    }
+}
