@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use almond\Transcription\Line;
 use PHPUnit\Framework\TestCase;
 use almond\Transcription\Transcription;
 
@@ -22,11 +23,13 @@ class TranscriptionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_convert_to_an_array_of_lines()
+    public function it_can_convert_to_an_array_of_line_objects()
     {
         $file = __DIR__ . '/stubs/basic-example.vtt';
 
-        $this->assertCount(4, Transcription::load($file)->lines());
+        $this->assertCount(2, $lines = Transcription::load($file)->lines());
+        $this->assertContainsOnlyInstancesOf(Line::class, $lines);
+        var_dump($lines);
     }
 
     /** @test */
@@ -35,6 +38,6 @@ class TranscriptionTest extends TestCase
         $file = __DIR__ . '/stubs/basic-example.vtt';
 
         $this->assertStringNotContainsString('WEBVTT', $transcription = Transcription::load($file));
-        $this->assertCount(4, $transcription->lines());
+        $this->assertCount(2, $transcription->lines());
     }
 }
