@@ -35,12 +35,10 @@ class Transcription
 
     public function htmlLines()
     {
-        $htmlLines = array_map(function (Line $line) {
-            preg_match('/^\d{2}:(\d{2}:\d{2})\.\d{3}/', $line->timestamp, $matches);
-            return '<a href="?=time=' . $matches[1] . '"' . $line->body . '</a>';
-        }, $this->lines());
-
-        return implode('\n', $htmlLines);
+        return implode(
+            "\n", 
+            array_map(fn(Line $line) => $line->toAnchorTag(),$this->lines())
+        );
     }
 
     protected function discardInvalidLines(array $lines):array
