@@ -25,4 +25,9 @@ class Line
     {
         return '<a href="?time=' . $this->beginningTimestamp() . '">' . $this->body . '</a>';
     }
+
+    public function toHtml()
+    {
+        return $this->toAnchorTag();
+    }
 }
