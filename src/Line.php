@@ -4,16 +4,13 @@ namespace almond\Transcription;
 
 class Line
 {
+    public int $position;
     public string $timestamp;
     public string $body;
 
-    public static function valid(string $line):bool
+    public function __construct(int $position, string $timestamp, string $body)
     {
-        return $line != 'WEBVTT' and $line != '' and !\is_numeric($line);
-    }
-
-    public function __construct(string $timestamp, string $body)
-    {
+        $this->position = $position;
         $this->timestamp = $timestamp;
         $this->body = $body;
     }

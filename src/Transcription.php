@@ -8,7 +8,7 @@ class Transcription
 
     public function __construct(array $lines)
     {
-        $this->lines = $this->discardInvalidLines(array_map('trim', $lines));
+        $this->lines = $this->discardInvalidLines($lines);
     }
 
     public static function load(String $path): self
@@ -22,28 +22,16 @@ class Transcription
         return implode('', $this->lines);
     }
 
-    public function lines(): array
+    public function lines(): LineCollection
     {
-
-        return array_map(
-            fn($line) => New Line($line[0], $line[1]),
-            array_chunk($this->lines, 2)
-        );
-    }
-
-    public function htmlLines()
-    {
-        return implode(
-            "\n", 
-            array_map(fn(Line $line) => $line->toAnchorTag(),$this->lines())
-        );
+        return new LineCollection(array_map(
+            fn ($line) => new Line(...$line),
+            array_chunk($this->lines, 3)
+        ));
     }
 
     protected function discardInvalidLines(array $lines):array
     {
-        return array_values(array_filter(
-            array_map('trim', $lines),
-            fn ($line) => Line::valid($line)
-        ));
+        return array_slice(array_filter(array_map('trim', $lines)), 1);
     }
 }

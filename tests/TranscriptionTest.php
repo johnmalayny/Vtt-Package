@@ -8,17 +8,17 @@ use almond\Transcription\Transcription;
 
 class TranscriptionTest extends TestCase
 {
-
     protected Transcription $transcription;
+
     protected function setUp():void
     {
         parent::setUp();
-    
+
         $this->transcription = Transcription::load(
             $file = __DIR__ . '/stubs/basic-example.vtt'
         );
-
     }
+
     /** @test */
     public function it_loads_a_vtt_file_as_a_string()
     {
@@ -55,6 +55,6 @@ class TranscriptionTest extends TestCase
         <a href="?time=00:04">This is a shortened example.</a>
         EOT;
 
-        $this->assertEquals($expected, $result = $this->transcription->htmlLines());
+        $this->assertEquals($expected, $result = $this->transcription->lines()->asHtml());
     }
 }
