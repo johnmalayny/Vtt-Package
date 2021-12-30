@@ -6,9 +6,10 @@ use ArrayAccess;
 use Countable;
 use ArrayIterator;
 use IteratorAggregate;
+use JsonSerializable;
 use Traversable;
 
-class LineCollection implements Countable, IteratorAggregate, ArrayAccess
+class LineCollection implements Countable, IteratorAggregate, ArrayAccess, JsonSerializable
 {
     protected array $lines;
 
@@ -62,5 +63,10 @@ class LineCollection implements Countable, IteratorAggregate, ArrayAccess
     public function offsetUnset($key):void
     {
         unset($this->lines[$key]);
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->lines;
     }
 }
