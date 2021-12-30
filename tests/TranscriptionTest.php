@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use ArrayAccess;
 use almond\Transcription\Line;
 use PHPUnit\Framework\TestCase;
 use almond\Transcription\Transcription;
@@ -56,5 +57,14 @@ class TranscriptionTest extends TestCase
         EOT;
 
         $this->assertEquals($expected, $result = $this->transcription->lines()->asHtml());
+    }
+
+    /** @test */
+    public function it_supports_array_access()
+    {
+        $lines = $this->transcription->lines();
+
+        $this->assertInstanceOf(ArrayAccess::class, $lines);
+        $this->assertInstanceOf(Line::class, $lines[0]);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace almond\Transcription;
 
+use ArrayAccess;
 use Countable;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
 
-class LineCollection implements Countable, IteratorAggregate
+class LineCollection implements Countable, IteratorAggregate, ArrayAccess
 {
     protected array $lines;
 
@@ -37,5 +38,29 @@ class LineCollection implements Countable, IteratorAggregate
     public function getIterator():Traversable
     {
         return new ArrayIterator($this->lines);
+    }
+
+    public function offsetExists($key):bool
+    {
+        return isset($this->lines[$key]);
+    }
+
+    public function offsetGet($key)
+    {
+        return $this->lines[$key];
+    }
+
+    public function offsetSet($key, $value):void
+    {
+        if (is_null($key)) {
+            $this->lines[] = $value;
+        } else {
+            $this->lines[$key] = $value;
+        }
+    }
+
+    public function offsetUnset($key):void
+    {
+        unset($this->lines[$key]);
     }
 }
