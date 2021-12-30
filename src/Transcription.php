@@ -24,13 +24,11 @@ class Transcription
 
     public function lines(): array
     {
-        $lines = [];
 
-        for ($i = 0; $i < count($this->lines); $i += 2) {
-            $lines[] = new Line($this->lines[$i], $this->lines[$i + 1]);
-        }
-
-        return $lines;
+        return array_map(
+            fn($line) => New Line($line[0], $line[1]),
+            array_chunk($this->lines, 2)
+        );
     }
 
     public function htmlLines()
