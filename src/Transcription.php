@@ -25,9 +25,9 @@ class Transcription
 
     protected function discardIrrelevantLines(array $lines):array
     {
-        return array_filter(
+        return array_values(array_filter(
             array_map('trim', $lines),
             fn ($line) => $line != 'WEBVTT' and $line != '' and !\is_numeric($line)
-        );
+        ));
     }
 }
