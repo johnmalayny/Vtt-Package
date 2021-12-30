@@ -4,17 +4,30 @@ namespace almond\Transcription;
 
 class Transcription
 {
-    protected string $file;
+    protected array $lines;
 
-    public static function load(String $fileName):String
+    public static function load(String $fileName): self
     {
         $instance = new Transcription();
-        $instance->file = file_get_contents($fileName);
+        $instance->lines = $instance->discardIrrelevantLines(file($fileName));
         return $instance;
     }
 
     public function __toString()
     {
-        return $this->file;
+        return implode('', $this->lines);
+    }
+
+    public function lines(): array
+    {
+        return $this->lines;
+    }
+
+    protected function discardIrrelevantLines(array $lines):array
+    {
+        return array_filter(
+            array_map('trim', $lines),
+            fn ($line) => $line != 'WEBVTT' and $line != '' and !\is_numeric($line)
+        );
     }
 }
